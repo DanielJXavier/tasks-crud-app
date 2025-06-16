@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -5,6 +6,10 @@ import { redirect } from "next/navigation";
 import RegisterForm from "@/components/RegisterForm";
 
 import { validateEmail, validatePassword } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Cadastro",
+};
 
 export default function Register() {
   const handleRegister = async (_: string, formData: FormData) => {

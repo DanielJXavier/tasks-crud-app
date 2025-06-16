@@ -5,7 +5,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tasks App",
+  title: { default: "Tasks App", template: "Tasks App | %s" },
 };
 
 export default function RootLayout({

@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import TaskForm from "@/components/TaskForm";
@@ -19,6 +20,10 @@ type TaskType = {
   deleted: boolean;
   createDate: string;
   modifyDate: string;
+};
+
+export const metadata: Metadata = {
+  title: "Tasks",
 };
 
 export default async function Tasks() {
