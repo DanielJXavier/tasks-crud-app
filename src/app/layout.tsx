@@ -23,6 +23,14 @@ export default function RootLayout({
         <main className="mt-24 mb-14 h-full flex items-start justify-center">
           {children}
         </main>
+
+        <footer className="text-center">
+          <p className="text-sm">
+            Projeto desenvolvido durante o curso de Fundamentos de Front-End com
+            React
+          </p>
+          <p className="text-xs">Por Daniel Xavier (2025)</p>
+        </footer>
       </body>
     </html>
   );
