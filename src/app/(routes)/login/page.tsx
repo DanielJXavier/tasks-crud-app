@@ -49,6 +49,7 @@ export default function Login() {
         const cookieStore = await cookies();
 
         cookieStore.set("token", token, {
+          httpOnly: true,
           secure: true,
           path: "/",
           maxAge: 60 * 60 * 24,
