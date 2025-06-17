@@ -41,9 +41,7 @@ export default function Login() {
         },
       });
 
-      const login = await res.json();
-
-      const { token } = login;
+      const { token, message } = await res.json();
 
       if (token) {
         const cookieStore = await cookies();
@@ -55,7 +53,7 @@ export default function Login() {
           maxAge: 60 * 60 * 24,
         });
       } else {
-        return login.message;
+        return message;
       }
     } catch {
       console.error("handleLogin failed");

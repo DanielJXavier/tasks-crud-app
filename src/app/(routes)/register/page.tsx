@@ -42,9 +42,7 @@ export default function Register() {
         },
       });
 
-      const register = await res.json();
-
-      const { token } = register;
+      const { token, message } = await res.json();
 
       if (token) {
         const cookieStore = await cookies();
@@ -55,7 +53,7 @@ export default function Register() {
           maxAge: 60 * 60 * 24,
         });
       } else {
-        return register.message;
+        return message;
       }
     } catch {
       console.error("handleRegister failed");
