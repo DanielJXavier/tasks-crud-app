@@ -22,30 +22,32 @@ export const FormRegister: FC<FormRegisterProps> = ({ action }) => {
       {!isPending && <FormError message={errorMessage} />}
 
       <form className="grid gap-y-6" action={formAction}>
-        <FormInput
-          id="username"
-          label="Usuário"
-          value={username}
-          setValue={setUsername}
-          error={!!errorMessage && !username}
-        />
+        <div className="grid gap-y-3">
+          <FormInput
+            id="username"
+            label="Usuário"
+            value={username}
+            setValue={setUsername}
+            error={!!errorMessage && !username}
+          />
 
-        <FormInput
-          id="email"
-          label="Email"
-          value={email}
-          setValue={setEmail}
-          error={!!errorMessage && !email}
-        />
+          <FormInput
+            id="email"
+            label="Email"
+            value={email}
+            setValue={setEmail}
+            error={!!errorMessage && !email}
+          />
 
-        <FormInput
-          id="password"
-          label="Senha"
-          value={password}
-          setValue={setPassword}
-          error={!!errorMessage && !password}
-          type="password"
-        />
+          <FormInput
+            id="password"
+            label="Senha"
+            value={password}
+            setValue={setPassword}
+            error={!!errorMessage && !password}
+            type="password"
+          />
+        </div>
 
         <FormButton>Cadastrar</FormButton>
       </form>

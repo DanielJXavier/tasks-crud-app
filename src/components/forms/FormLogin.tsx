@@ -21,22 +21,24 @@ export const FormLogin: FC<FormLoginProps> = ({ action }) => {
       {!isPending && <FormError message={errorMessage} />}
 
       <form className="grid gap-y-6" action={formAction}>
-        <FormInput
-          id="email"
-          label="Email"
-          value={email}
-          setValue={setEmail}
-          error={!!errorMessage && !email}
-        />
+        <div className="grid gap-y-3">
+          <FormInput
+            id="email"
+            label="Email"
+            value={email}
+            setValue={setEmail}
+            error={!!errorMessage && !email}
+          />
 
-        <FormInput
-          id="password"
-          label="Senha"
-          value={password}
-          setValue={setPassword}
-          error={!!errorMessage && !password}
-          type="password"
-        />
+          <FormInput
+            id="password"
+            label="Senha"
+            value={password}
+            setValue={setPassword}
+            error={!!errorMessage && !password}
+            type="password"
+          />
+        </div>
 
         <FormButton>Login</FormButton>
       </form>
