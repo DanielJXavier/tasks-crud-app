@@ -27,15 +27,23 @@ export const FormRegister: FC<FormRegisterProps> = ({ action }) => {
           label="Usuário"
           value={username}
           setValue={setUsername}
+          error={!!errorMessage && !username}
         />
 
-        <FormInput id="email" label="Email" value={email} setValue={setEmail} />
+        <FormInput
+          id="email"
+          label="Email"
+          value={email}
+          setValue={setEmail}
+          error={!!errorMessage && !email}
+        />
 
         <FormInput
           id="password"
           label="Senha"
           value={password}
           setValue={setPassword}
+          error={!!errorMessage && !password}
           type="password"
         />
 
