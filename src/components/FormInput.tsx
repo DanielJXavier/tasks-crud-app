@@ -28,8 +28,11 @@ export const FormInput: FC<FormInputProps> = ({
 
     <input
       className={classNames(
-        "px-2 py-1 text-[#7b7c7b] border border-[#e8e9e9] hover:border-[#b1b2b2] focus:border-[#b1b2b2] outline-none rounded-lg shadow-md",
-        { "border-red-400": error }
+        "px-2 py-1 text-[#7b7c7b] border border-[#e8e9e9] outline-none rounded-lg shadow-md",
+        {
+          "border-red-400": error,
+          "hover:border-[#b1b2b2] focus:border-[#b1b2b2]": !error,
+        }
       )}
       id={id}
       name={id}
