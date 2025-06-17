@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 
 import LoginForm from "@/components/LoginForm";
 
+import { COOKIE } from "@/contants/constants";
+
 import { checkInvalidEmail, checkInvalidPassword } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -46,12 +48,7 @@ export default function Login() {
       if (token) {
         const cookieStore = await cookies();
 
-        cookieStore.set("token", token, {
-          httpOnly: true,
-          secure: true,
-          path: "/",
-          maxAge: 60 * 60 * 24,
-        });
+        cookieStore.set("token", token, COOKIE);
       } else {
         return message;
       }

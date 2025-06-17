@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 
 import RegisterForm from "@/components/RegisterForm";
 
+import { COOKIE } from "@/contants/constants";
+
 import { checkInvalidEmail, checkInvalidPassword } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -47,11 +49,7 @@ export default function Register() {
       if (token) {
         const cookieStore = await cookies();
 
-        cookieStore.set("token", token, {
-          secure: true,
-          path: "/",
-          maxAge: 60 * 60 * 24,
-        });
+        cookieStore.set("token", token, COOKIE);
       } else {
         return message;
       }
