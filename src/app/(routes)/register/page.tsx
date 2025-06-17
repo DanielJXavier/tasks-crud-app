@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import RegisterForm from "@/components/RegisterForm";
 
-import { validateEmail, validatePassword } from "@/lib/utils";
+import { checkInvalidEmail, checkInvalidPassword } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Cadastro",
@@ -23,11 +23,11 @@ export default function Register() {
       return "Preencha todos os campos";
     }
 
-    if (!validateEmail(email)) {
+    if (checkInvalidEmail(email)) {
       return "Email inválido";
     }
 
-    if (!validatePassword(password)) {
+    if (checkInvalidPassword(password)) {
       return "A senha precisa ter pelo menos 6 caracteres";
     }
 
