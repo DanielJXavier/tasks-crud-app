@@ -9,15 +9,15 @@ export default function Home() {
         <p className="font-bold">Telas disponíveis:</p>
 
         <ul className="list-disc ml-6 underline">
-          <li className="">
+          <li>
             <Link href="/register">Cadastro</Link>
           </li>
 
-          <li className="">
+          <li>
             <Link href="/login">Login</Link>
           </li>
 
-          <li className="">
+          <li>
             <Link href="/tasks">Tasks</Link>
           </li>
         </ul>
