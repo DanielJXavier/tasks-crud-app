@@ -49,7 +49,7 @@ export const TaskCard: FC<TaskCardProps> = ({
     </p>
 
     {!completed && (
-      <form action={deleteAction}>
+      <form className="flex" action={deleteAction}>
         <input name="id" type="hidden" value={id} />
 
         <button className="cursor-pointer hover:[&_svg_path]:stroke-red-500">
