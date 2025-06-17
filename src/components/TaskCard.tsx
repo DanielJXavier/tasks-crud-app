@@ -5,14 +5,14 @@ import { FC, PropsWithChildren } from "react";
 import classNames from "classnames";
 
 interface TaskCardProps extends PropsWithChildren {
-  taskId: string;
+  id: string;
   completed: boolean;
   completeAction: (formData: FormData) => Promise<void>;
   deleteAction: (formData: FormData) => Promise<void>;
 }
 
 export const TaskCard: FC<TaskCardProps> = ({
-  taskId,
+  id,
   completed,
   completeAction,
   deleteAction,
@@ -20,17 +20,18 @@ export const TaskCard: FC<TaskCardProps> = ({
 }) => (
   <li
     className={classNames(
-      "px-4 py-4 grid grid-cols-[auto_1fr_auto] gap-x-2 text-[#7b7c7b] border border-[#e8e9e9] rounded-lg",
+      "p-4 grid grid-cols-[auto_1fr_auto] gap-x-2 text-[#7b7c7b] border border-[#e8e9e9] rounded-lg",
       {
         "opacity-50": completed,
         "hover:border-[#b1b2b2]": !completed,
       }
     )}
   >
-    <form action={completeAction}>
-      <input name="id" type="hidden" value={taskId} />
+    <form className="flex" action={completeAction}>
+      <input name="id" type="hidden" value={id} />
+
       <input
-        className="accent-[#161615]"
+        className="accent-[#141516]"
         name="completed"
         type="checkbox"
         defaultChecked={completed}
@@ -49,8 +50,9 @@ export const TaskCard: FC<TaskCardProps> = ({
 
     {!completed && (
       <form action={deleteAction}>
-        <input name="id" type="hidden" value={taskId} />
-        <button className="text-red cursor-pointer hover:[&_svg_path]:stroke-red-500">
+        <input name="id" type="hidden" value={id} />
+
+        <button className="cursor-pointer hover:[&_svg_path]:stroke-red-500">
           <svg
             className="size-3"
             aria-hidden="true"
