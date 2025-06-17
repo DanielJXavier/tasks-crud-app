@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-import TaskForm from "@/components/TaskForm";
+import { FormTasks } from "@/components/forms/FormTasks";
 import { TaskCard } from "@/components/TaskCard";
 
 import { fetchWithToken } from "@/lib/fetchWithToken";
@@ -11,6 +11,12 @@ import {
   handleCreateTask,
   handleDeleteTask,
 } from "./actions";
+
+const PAGE_TITLE = "Tasks";
+
+export const metadata: Metadata = {
+  title: PAGE_TITLE,
+};
 
 type TaskType = {
   _id: string;
@@ -22,18 +28,16 @@ type TaskType = {
   modifyDate: string;
 };
 
-export const metadata: Metadata = {
-  title: "Tasks",
-};
-
 export default async function Tasks() {
   const cookieStore = await cookies();
 
   const token = cookieStore.get("token")?.value;
 
+  if (!token) return null;
+
   const { tasks }: { tasks: TaskType[] } = await fetchWithToken(
     `${process.env.BACKEND_URL}/tasks`,
-    token!,
+    token,
     {
       next: {
         tags: ["get-tasks"],
@@ -45,7 +49,7 @@ export default async function Tasks() {
     <>
       <h1 className="text-4xl text-center font-bold">Tasks</h1>
 
-      <TaskForm action={handleCreateTask} />
+      <FormTasks action={handleCreateTask} />
 
       <ul className="grid gap-y-3">
         {tasks
@@ -54,7 +58,7 @@ export default async function Tasks() {
           .map((task) => (
             <TaskCard
               key={task._id}
-              taskId={task._id}
+              id={task._id}
               completed={task.completed}
               completeAction={handleCompleteTask}
               deleteAction={handleDeleteTask}

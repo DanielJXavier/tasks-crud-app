@@ -1,18 +1,21 @@
 "use server";
 
-import { fetchWithToken } from "@/lib/fetchWithToken";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
+import { fetchWithToken } from "@/lib/fetchWithToken";
+
 export const handleCreateTask = async (_: string, formData: FormData) => {
-  const task = formData.get("task");
+  const task = formData.get("task")?.toString();
 
   if (!task) {
-    return "Você precisa informar o título da Task";
+    return "Você precisa informar o título da task";
   }
 
   try {
-    const body = { title: task };
+    const body = {
+      title: task,
+    };
 
     const cookieStore = await cookies();
 
@@ -30,9 +33,11 @@ export const handleCreateTask = async (_: string, formData: FormData) => {
         }
       );
 
-      revalidateTag("get-tasks");
+      if (message) {
+        return message;
+      }
 
-      return message;
+      revalidateTag("get-tasks");
     }
   } catch {
     console.error("handleCreateTask failed");
@@ -41,11 +46,13 @@ export const handleCreateTask = async (_: string, formData: FormData) => {
   }
 };
 
-export const handleDeleteTask = async (formData: FormData) => {
-  const id = formData.get("id");
+export const handleCompleteTask = async (formData: FormData) => {
+  const id = formData.get("id")?.toString();
 
   if (!id) {
-    return "Você precisa informar o id da Task";
+    console.error("Você precisa informar o id da task");
+
+    return;
   }
 
   try {
@@ -54,7 +61,51 @@ export const handleDeleteTask = async (formData: FormData) => {
     const token = cookieStore.get("token")?.value;
 
     if (!token) {
-      return "Token não encontrado";
+      console.error("Token não encontrado");
+
+      return;
+    } else {
+      const { message } = await fetchWithToken(
+        `${process.env.BACKEND_URL}/tasks/${id}/complete`,
+        token,
+        {
+          method: "PUT",
+        }
+      );
+
+      if (message) {
+        console.error(message);
+
+        return;
+      }
+
+      revalidateTag("get-tasks");
+    }
+  } catch {
+    console.error("handleCompleteTask failed");
+
+    return;
+  }
+};
+
+export const handleDeleteTask = async (formData: FormData) => {
+  const id = formData.get("id")?.toString();
+
+  if (!id) {
+    console.error("Você precisa informar o id da task");
+
+    return;
+  }
+
+  try {
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) {
+      console.error("Token não encontrado");
+
+      return;
     } else {
       const { message } = await fetchWithToken(
         `${process.env.BACKEND_URL}/tasks/${id}`,
@@ -64,51 +115,17 @@ export const handleDeleteTask = async (formData: FormData) => {
         }
       );
 
-      revalidateTag("get-tasks");
+      if (message) {
+        console.error(message);
 
-      return message;
+        return;
+      }
+
+      revalidateTag("get-tasks");
     }
   } catch {
     console.error("handleDeleteTask failed");
 
-    return "Erro ao excluir Task";
-  }
-};
-
-export const handleCompleteTask = async (formData: FormData) => {
-  const id = formData.get("id");
-
-  if (!id) {
-    return "Você precisa informar o id da Task";
-  }
-
-  const completed = formData.get("completed");
-
-  try {
-    const cookieStore = await cookies();
-
-    const token = cookieStore.get("token")?.value;
-
-    if (!token) {
-      return "Token não encontrado";
-    } else {
-      const endpoint = completed !== null ? "complete" : "uncomplete";
-
-      const { message } = await fetchWithToken(
-        `${process.env.BACKEND_URL}/tasks/${id}/${endpoint}`,
-        token,
-        {
-          method: "PUT",
-        }
-      );
-
-      revalidateTag("get-tasks");
-
-      return message;
-    }
-  } catch {
-    console.error("handleCompleteTask failed");
-
-    return "Erro ao excluir Task";
+    return;
   }
 };

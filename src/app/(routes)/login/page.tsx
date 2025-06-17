@@ -3,14 +3,16 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import LoginForm from "@/components/LoginForm";
+import { FormLogin } from "@/components/forms/FormLogin";
 
 import { COOKIE } from "@/contants/constants";
 
 import { checkInvalidEmail, checkInvalidPassword } from "@/lib/utils";
 
+const PAGE_TITLE = "Login";
+
 export const metadata: Metadata = {
-  title: "Login",
+  title: PAGE_TITLE,
 };
 
 export default function Login() {
@@ -33,7 +35,10 @@ export default function Login() {
     }
 
     try {
-      const body = { email, password };
+      const body = {
+        email,
+        password,
+      };
 
       const res = await fetch(`${process.env.BACKEND_URL}/auth/login`, {
         method: "POST",
@@ -45,12 +50,12 @@ export default function Login() {
 
       const { token, message } = await res.json();
 
-      if (token) {
+      if (!token) {
+        return message;
+      } else {
         const cookieStore = await cookies();
 
         cookieStore.set("token", token, COOKIE);
-      } else {
-        return message;
       }
     } catch {
       console.error("handleLogin failed");
@@ -65,7 +70,7 @@ export default function Login() {
     <>
       <h1 className="text-4xl text-center font-bold">Login</h1>
 
-      <LoginForm action={handleLogin} />
+      <FormLogin action={handleLogin} />
 
       <Link className="text-center underline" href="/register">
         Não tenho cadastro

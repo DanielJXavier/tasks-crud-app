@@ -3,14 +3,16 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import RegisterForm from "@/components/RegisterForm";
+import { FormRegister } from "@/components/forms/FormRegister";
 
 import { COOKIE } from "@/contants/constants";
 
 import { checkInvalidEmail, checkInvalidPassword } from "@/lib/utils";
 
+const PAGE_TITLE = "Cadastro";
+
 export const metadata: Metadata = {
-  title: "Cadastro",
+  title: PAGE_TITLE,
 };
 
 export default function Register() {
@@ -34,7 +36,11 @@ export default function Register() {
     }
 
     try {
-      const body = { username, email, password };
+      const body = {
+        username,
+        email,
+        password,
+      };
 
       const res = await fetch(`${process.env.BACKEND_URL}/auth/register`, {
         method: "POST",
@@ -46,12 +52,12 @@ export default function Register() {
 
       const { token, message } = await res.json();
 
-      if (token) {
+      if (!token) {
+        return message;
+      } else {
         const cookieStore = await cookies();
 
         cookieStore.set("token", token, COOKIE);
-      } else {
-        return message;
       }
     } catch {
       console.error("handleRegister failed");
@@ -64,9 +70,9 @@ export default function Register() {
 
   return (
     <>
-      <h1 className="text-4xl text-center font-bold">Cadastro</h1>
+      <h1 className="text-4xl text-center font-bold">{PAGE_TITLE}</h1>
 
-      <RegisterForm action={handleRegister} />
+      <FormRegister action={handleRegister} />
 
       <Link className="text-center underline" href="/login">
         Já tenho cadastro
